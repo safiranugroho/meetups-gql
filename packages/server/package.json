@@ -1,5 +1,6 @@
 {
-  "name": "meetups",
+  "name": "server",
+  "private": true,
   "version": "1.0.0",
   "description": "meetups w graphql",
   "scripts": {
@@ -12,6 +13,7 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
+    "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.7",
     "graphql": "^14.5.8"
   }
