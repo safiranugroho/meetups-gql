@@ -9,8 +9,8 @@ import EventsDataSource from '../data-source';
 describe('server', () => {
   it('should query events according to schema', async () => {
     const GET_EVENTS = gql`
-      query {
-        events {
+      query($input: EventsInput!) {
+        events(input: $input) {
           name
           date
           time
@@ -36,7 +36,7 @@ describe('server', () => {
     };
 
     nock('http://localhost:4001')
-      .get('/find/upcoming_events')
+      .get('/find/upcoming_events?topic_category=292')
       .reply(200, fakeEventsResponse);
 
     const server = new ApolloServer({
@@ -48,7 +48,10 @@ describe('server', () => {
     });
 
     const { query } = createTestClient(server);
-    const response = await query({ query: GET_EVENTS });
+    const response = await query({
+      query: GET_EVENTS,
+      variables: { input: { category: '292' } },
+    });
 
     expect(response).toMatchSnapshot();
   });
