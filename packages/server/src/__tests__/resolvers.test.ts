@@ -45,6 +45,10 @@ describe('resolvers', () => {
       it('should resolve to name of venue', () => {
         expect(resolvers.Event.venue(fakeEvent)).toEqual(fakeEvent.venue.name);
       });
+
+      it('should resolve to undefined if venue is undefined', () => {
+        expect(resolvers.Event.venue({ ...fakeEvent, venue: undefined })).toBeUndefined();
+      });
     });
   });
 });
