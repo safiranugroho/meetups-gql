@@ -6,6 +6,8 @@ import typeDefs from '../type-defs';
 import resolvers from '../resolvers';
 import EventsDataSource from '../data-source';
 
+jest.spyOn(global.Date, 'now').mockImplementation(() => 1572764400000);
+
 describe('server', () => {
   it('should query events according to schema', async () => {
     const GET_EVENTS = gql`
@@ -36,7 +38,9 @@ describe('server', () => {
     };
 
     nock('http://localhost:4001')
-      .get('/find/upcoming_events?topic_category=292')
+      .get(
+        '/find/upcoming_events?topic_category=292&end_date_range=2019-11-10T07:00:00',
+      )
       .reply(200, fakeEventsResponse);
 
     const server = new ApolloServer({
@@ -50,7 +54,7 @@ describe('server', () => {
     const { query } = createTestClient(server);
     const response = await query({
       query: GET_EVENTS,
-      variables: { input: { category: '292' } },
+      variables: { input: { category: '292', daysInAdvance: 7 } },
     });
 
     expect(response).toMatchSnapshot();
