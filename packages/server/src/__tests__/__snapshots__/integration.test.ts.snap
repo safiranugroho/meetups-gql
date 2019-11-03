@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`server should query events according to schema 1`] = `
+Object {
+  "data": Object {
+    "events": Array [
+      Object {
+        "date": "2019-11-28",
+        "link": "http://fake.link",
+        "name": "fake-event",
+        "time": "18:00",
+        "venue": "fake-venue",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
