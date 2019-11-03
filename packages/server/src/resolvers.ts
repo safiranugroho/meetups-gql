@@ -1,4 +1,4 @@
-import { EventResponse } from './data-source';
+import EventsDataSource, { EventResponse } from './data-source';
 
 type Event = {
   name: string;
@@ -10,7 +10,8 @@ type Event = {
 
 export default {
   Query: {
-    events: async (_, {}, { dataSources: { events } }): Promise<Event[]> => await events.getEvents(),
+    events: async (_: {}, {  }: {}, { dataSources: { events } }: { dataSources: { events: EventsDataSource } }) =>
+      await events.getEvents(),
   },
   Event: {
     date: (event: EventResponse): string => event.local_date,

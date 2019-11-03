@@ -5,7 +5,8 @@
   "description": "meetups w graphql",
   "scripts": {
     "start": "ts-node index.ts",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,10 @@
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.7",
     "graphql": "^14.5.8"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.21",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0"
   }
 }

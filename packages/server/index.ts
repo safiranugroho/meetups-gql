@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server';
 
-import typeDefs from './type-defs';
-import resolvers from './resolvers';
-import EventsDataSource from './data-source';
+import typeDefs from './src/type-defs';
+import resolvers from './src/resolvers';
+import EventsDataSource from './src/data-source';
 
 const server = new ApolloServer({
   typeDefs,

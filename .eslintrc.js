@@ -1,8 +1,8 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'eslint-plugin-import'],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   parserOptions: {
@@ -10,6 +10,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    camelcase: [0],
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/camelcase': 0,
   },
 };
