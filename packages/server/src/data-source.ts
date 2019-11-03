@@ -23,8 +23,10 @@ class EventsDataSource extends RESTDataSource {
     this.baseURL = 'http://localhost:4001';
   }
 
-  async getEvents(): Promise<EventResponse[]> {
-    return this.get<EventsResponse>(`/find/upcoming_events`).then(response => response.events);
+  async getEvents(category = '292'): Promise<EventResponse[]> {
+    return this.get<EventsResponse>(`/find/upcoming_events`, {
+      topic_category: category,
+    }).then(response => response.events);
   }
 }
 

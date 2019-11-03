@@ -22,7 +22,12 @@ describe('resolvers', () => {
       it('should return results from EventsDataSource', async () => {
         events.getEvents.mockImplementation(() => Promise.resolve([fakeEvent]));
 
-        const results = await resolvers.Query.events({}, {}, { dataSources: { events } });
+        const results = await resolvers.Query.events(
+          {},
+          { input: { category: 'fake-category' } },
+          { dataSources: { events } },
+        );
+
         expect(results).toEqual([fakeEvent]);
       });
     });
