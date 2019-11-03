@@ -4,9 +4,13 @@ export default {
   Query: {
     events: async (
       _: {},
-      { input: { category } }: { input: { category: string } },
-      { dataSources: { events } }: { dataSources: { events: EventsDataSource } },
-    ) => await events.getEvents(category),
+      {
+        input: { category, daysInAdvance },
+      }: { input: { category: string; daysInAdvance: number } },
+      {
+        dataSources: { events },
+      }: { dataSources: { events: EventsDataSource } },
+    ) => await events.getEvents(daysInAdvance, category),
   },
   Event: {
     date: (event: EventResponse): string => event.local_date,

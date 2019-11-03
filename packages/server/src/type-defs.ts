@@ -7,6 +7,7 @@ export default gql`
 
   input EventsInput {
     category: String
+    daysInAdvance: Float
   }
 
   type Event {
