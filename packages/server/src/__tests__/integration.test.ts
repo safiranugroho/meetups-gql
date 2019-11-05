@@ -6,7 +6,15 @@ import typeDefs from '../type-defs';
 import resolvers from '../resolvers';
 import EventsDataSource from '../data-source';
 
-jest.spyOn(global.Date, 'now').mockImplementation(() => 1572764400000);
+// TODO: Match date string to regex instead of mocking moment
+jest.mock('moment', () => ({
+  __esModule: true,
+  default: () => ({
+    add: () => ({
+      format: () => '2019-11-10T07:00:00',
+    }),
+  }),
+}));
 
 describe('server', () => {
   it('should query events according to schema', async () => {

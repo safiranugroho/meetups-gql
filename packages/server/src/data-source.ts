@@ -1,8 +1,5 @@
+import moment from 'moment';
 import { RESTDataSource } from 'apollo-datasource-rest';
-
-type EventsResponse = {
-  events: EventResponse[];
-};
 
 export type EventResponse = {
   name: string;
@@ -12,14 +9,13 @@ export type EventResponse = {
   venue: Venue;
 };
 
+type EventsResponse = {
+  events: EventResponse[];
+};
+
 type Venue = {
   name: string;
   city: string;
-};
-
-const formatDate = (date: Date) => {
-  const dateAsString = date.toISOString();
-  return dateAsString.substring(0, dateAsString.length - 5);
 };
 
 class EventsDataSource extends RESTDataSource {
@@ -29,15 +25,14 @@ class EventsDataSource extends RESTDataSource {
   }
 
   async getEvents(
-    daysInAdvance = 7,
     category = '292',
+    daysInAdvance = 7,
   ): Promise<EventResponse[]> {
-    const date = new Date(Date.now());
-    date.setDate(date.getDate() + daysInAdvance);
-
     return this.get<EventsResponse>(`/find/upcoming_events`, {
-      end_date_range: formatDate(date),
       topic_category: category,
+      end_date_range: moment()
+        .add(daysInAdvance, 'days')
+        .format('YYYY-MM-DDTHH:mm:ss'),
     }).then(response => response.events);
   }
 }
