@@ -10,7 +10,7 @@ export default {
       {
         dataSources: { events },
       }: { dataSources: { events: EventsDataSource } },
-    ) => await events.getEvents(daysInAdvance, category),
+    ) => await events.getEvents(category, daysInAdvance),
   },
   Event: {
     date: (event: EventResponse): string => event.local_date,
