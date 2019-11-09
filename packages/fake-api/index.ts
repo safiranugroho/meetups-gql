@@ -9,7 +9,9 @@ app.get('/find/upcoming_events', (req, res) => {
     const response = {
       ...upcomingEvents,
       events: upcomingEvents.events.filter(
-        event => event.local_date <= req.query.end_date_range,
+        ({ local_date }) =>
+          local_date >= new Date().toISOString() &&
+          local_date <= req.query.end_date_range,
       ),
     };
 

@@ -12,6 +12,7 @@ export default gql`
 
   type Event {
     name: String
+    day: String
     date: String
     time: String
     venue: String

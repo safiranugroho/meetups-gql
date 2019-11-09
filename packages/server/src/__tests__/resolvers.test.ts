@@ -24,7 +24,7 @@ describe('resolvers', () => {
 
         const results = await resolvers.Query.events(
           {},
-          { input: { category: 'fake-category' } },
+          { input: { category: 'fake-category', daysInAdvance: null } },
           { dataSources: { events } },
         );
 
@@ -34,6 +34,12 @@ describe('resolvers', () => {
   });
 
   describe('Event', () => {
+    describe('day', () => {
+      it('should resolve to the day of local_date', () => {
+        expect(resolvers.Event.day(fakeEvent)).toEqual('Thursday');
+      });
+    });
+
     describe('date', () => {
       it('should resolve to local_date', () => {
         expect(resolvers.Event.date(fakeEvent)).toEqual(fakeEvent.local_date);
@@ -52,7 +58,9 @@ describe('resolvers', () => {
       });
 
       it('should resolve to undefined if venue is undefined', () => {
-        expect(resolvers.Event.venue({ ...fakeEvent, venue: undefined })).toBeUndefined();
+        expect(
+          resolvers.Event.venue({ ...fakeEvent, venue: undefined }),
+        ).toBeUndefined();
       });
     });
   });
