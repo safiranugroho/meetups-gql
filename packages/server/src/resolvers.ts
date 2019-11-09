@@ -19,5 +19,6 @@ export default {
     date: (event: EventResponse): string => event.local_date,
     time: (event: EventResponse): string => event.local_time,
     venue: (event: EventResponse): string => event.venue && event.venue.name,
+    group: (event: EventResponse): string => event.group && event.group.name,
   },
 };

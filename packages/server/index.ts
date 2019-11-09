@@ -7,6 +7,7 @@ import EventsDataSource from './src/data-source';
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({ token: req.headers.authorization || '' }),
   dataSources: (): {} => ({
     events: new EventsDataSource(),
   }),
