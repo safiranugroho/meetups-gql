@@ -15,6 +15,9 @@ describe('resolvers', () => {
       name: 'fake-venue',
       city: 'Melbourne',
     },
+    group: {
+      name: 'fake-group',
+    },
   };
 
   describe('Query', () => {
@@ -60,6 +63,18 @@ describe('resolvers', () => {
       it('should resolve to undefined if venue is undefined', () => {
         expect(
           resolvers.Event.venue({ ...fakeEvent, venue: undefined }),
+        ).toBeUndefined();
+      });
+    });
+
+    describe('group', () => {
+      it('should resolve to name of group', () => {
+        expect(resolvers.Event.group(fakeEvent)).toEqual(fakeEvent.group.name);
+      });
+
+      it('should resolve to undefined if group is undefined', () => {
+        expect(
+          resolvers.Event.group({ ...fakeEvent, group: undefined }),
         ).toBeUndefined();
       });
     });

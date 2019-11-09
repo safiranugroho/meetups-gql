@@ -17,5 +17,6 @@ export default gql`
     time: String
     venue: String
     link: String
+    group: String
   }
 `;

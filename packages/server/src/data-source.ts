@@ -1,12 +1,13 @@
 import moment from 'moment';
-import { RESTDataSource } from 'apollo-datasource-rest';
+import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest';
 
 export type EventResponse = {
   name: string;
   local_date: string;
   local_time: string;
   link: string;
-  venue: Venue;
+  venue?: Venue;
+  group?: Group;
 };
 
 type EventsResponse = {
@@ -18,10 +19,18 @@ type Venue = {
   city: string;
 };
 
+type Group = {
+  name: string;
+};
+
 class EventsDataSource extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = 'http://localhost:4001';
+    this.baseURL = 'https://api.meetup.com';
+  }
+
+  willSendRequest(request: RequestOptions) {
+    request.headers.set('Authorization', this.context.token);
   }
 
   async getEvents(
