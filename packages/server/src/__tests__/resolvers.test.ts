@@ -1,15 +1,22 @@
 import resolvers from '../resolvers';
 import EventsDataSource from '../data-source';
+import GroupsDataSource from '../groups-data-source';
 
 describe('resolvers', () => {
   const events = ({
     getEvents: jest.fn(),
   } as unknown) as jest.Mocked<EventsDataSource>;
 
+  const groups = ({
+    getGroups: jest.fn(),
+  } as unknown) as jest.Mocked<GroupsDataSource>;
+
   const fakeEvent = {
+    id: 'fake-id',
     name: 'fake-event',
     local_date: '2019-11-28',
     local_time: '18:00',
+    time: 1585809000000,
     link: 'http://fake.link',
     venue: {
       name: 'fake-venue',
@@ -20,6 +27,22 @@ describe('resolvers', () => {
     },
   };
 
+  const fakeGroup = {
+    id: 1785640,
+    name: 'Melbourne Silicon Beach',
+    urlname: 'Melbourne-Silicon-Beach',
+    city: 'Melbourne',
+    next_event: {
+      id: fakeEvent.id,
+      name: fakeEvent.name,
+      time: fakeEvent.time,
+    },
+    category: {
+      id: 34,
+      name: 'Tech',
+    },
+  };
+
   describe('Query', () => {
     describe('events', () => {
       it('should return results from EventsDataSource', async () => {
@@ -27,11 +50,25 @@ describe('resolvers', () => {
 
         const results = await resolvers.Query.events(
           {},
-          { input: { category: 'fake-category', daysInAdvance: null } },
+          { input: { category: 111, daysInAdvance: null } },
           { dataSources: { events } },
         );
 
         expect(results).toEqual([fakeEvent]);
+      });
+    });
+
+    describe('groups', () => {
+      it('should return results from EventsDataSource', async () => {
+        groups.getGroups.mockImplementation(() => Promise.resolve([fakeGroup]));
+
+        const results = await resolvers.Query.groups(
+          {},
+          { input: { category: 34, country: 'AU' } },
+          { dataSources: { groups } },
+        );
+
+        expect(results).toEqual([fakeGroup]);
       });
     });
   });
@@ -76,6 +113,32 @@ describe('resolvers', () => {
         expect(
           resolvers.Event.group({ ...fakeEvent, group: undefined }),
         ).toBeUndefined();
+      });
+    });
+  });
+
+  describe('Group', () => {
+    describe('url', () => {
+      it('should resolve to the urlname', () => {
+        expect(resolvers.Group.url(fakeGroup)).toEqual(
+          'Melbourne-Silicon-Beach',
+        );
+      });
+    });
+
+    describe('category', () => {
+      it('should resolve to the name of the category', () => {
+        expect(resolvers.Group.category(fakeGroup)).toEqual('Tech');
+      });
+    });
+
+    describe('nextEvent', () => {
+      it('should resolve to the next_event', () => {
+        expect(resolvers.Group.nextEvent(fakeGroup)).toEqual({
+          id: fakeEvent.id,
+          name: fakeEvent.name,
+          time: fakeEvent.time,
+        });
       });
     });
   });
