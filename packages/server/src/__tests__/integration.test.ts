@@ -17,6 +17,8 @@ jest.mock('moment', () => ({
 }));
 
 describe('server', () => {
+  const meetupAPI = 'https://api.meetup.com';
+
   it('should query events according to schema', async () => {
     const GET_EVENTS = gql`
       query($input: EventsInput!) {
@@ -45,10 +47,12 @@ describe('server', () => {
       ],
     };
 
-    nock('http://localhost:4001')
-      .get(
-        '/find/upcoming_events?topic_category=292&end_date_range=2019-11-10T07:00:00',
-      )
+    nock(meetupAPI)
+      .get('/find/upcoming_events')
+      .query({
+        topic_category: 292,
+        end_date_range: '2019-11-10T07:00:00',
+      })
       .reply(200, fakeEventsResponse);
 
     const server = new ApolloServer({

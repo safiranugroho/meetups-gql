@@ -14,6 +14,20 @@ jest.mock('moment', () => ({
 }));
 
 describe('data-source', () => {
+  const meetupAPI = 'https://api.meetup.com';
+
+  const initializeDataSource = () => {
+    const dataSource = new EventsDataSource();
+    dataSource.initialize({
+      context: {
+        token: 'fake-access-token',
+      },
+      cache: new InMemoryLRUCache(),
+    });
+
+    return dataSource;
+  };
+
   describe('getEvents', () => {
     const fakeEventsResponse = {
       events: [
@@ -31,55 +45,46 @@ describe('data-source', () => {
     };
 
     it('should send a get request and query undefined fields with default values', async () => {
-      nock('http://localhost:4001')
-        .get(
-          '/find/upcoming_events?topic_category=292&end_date_range=2019-11-10T07:00:00',
-        )
+      nock(meetupAPI)
+        .get('/find/upcoming_events')
+        .query({
+          topic_category: 292,
+          end_date_range: '2019-11-10T07:00:00',
+        })
         .reply(200, fakeEventsResponse);
 
-      const dataSource = new EventsDataSource();
-      dataSource.initialize({
-        context: undefined,
-        cache: new InMemoryLRUCache(),
-      });
-
+      const dataSource = initializeDataSource();
       const response = await dataSource.getEvents();
 
       expect(response).toEqual(fakeEventsResponse.events);
     });
 
     it('should send a get request and query topic_category passed as argument', async () => {
-      nock('http://localhost:4001')
-        .get(
-          '/find/upcoming_events?topic_category=200&end_date_range=2019-11-10T07:00:00',
-        )
+      nock(meetupAPI)
+        .get('/find/upcoming_events')
+        .query({
+          topic_category: 200,
+          end_date_range: '2019-11-10T07:00:00',
+        })
         .reply(200, fakeEventsResponse);
 
-      const dataSource = new EventsDataSource();
-      dataSource.initialize({
-        context: undefined,
-        cache: new InMemoryLRUCache(),
-      });
-
-      const response = await dataSource.getEvents(undefined, '200');
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getEvents('200');
 
       expect(response).toEqual(fakeEventsResponse.events);
     });
 
     it('should send a get request and query end_date_range from the days passed as argument', async () => {
-      nock('http://localhost:4001')
-        .get(
-          '/find/upcoming_events?topic_category=292&end_date_range=2019-11-10T07:00:00',
-        )
+      nock(meetupAPI)
+        .get('/find/upcoming_events')
+        .query({
+          topic_category: 292,
+          end_date_range: '2019-11-10T07:00:00',
+        })
         .reply(200, fakeEventsResponse);
 
-      const dataSource = new EventsDataSource();
-      dataSource.initialize({
-        context: undefined,
-        cache: new InMemoryLRUCache(),
-      });
-
-      const response = await dataSource.getEvents(7);
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getEvents(undefined, 7);
 
       expect(response).toEqual(fakeEventsResponse.events);
     });
