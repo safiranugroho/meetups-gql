@@ -10,6 +10,7 @@ import GroupsDataSource from '../groups-data-source';
 
 import fakeGroup from './__fixtures__/group.json';
 import fakeEvent from './__fixtures__/event.json';
+import { EVENTS, GROUPS } from '../queries';
 
 // TODO: Match date string to regex instead of mocking moment
 jest.mock('moment', () => ({
@@ -27,19 +28,7 @@ describe('server', () => {
   const meetupAPI = 'https://api.meetup.com';
 
   it('should query events according to schema', async () => {
-    const GET_EVENTS = gql`
-      query($input: EventsInput!) {
-        events(input: $input) {
-          id
-          name
-          date
-          time
-          venue
-          link
-          group
-        }
-      }
-    `;
+    const GET_EVENTS = gql(EVENTS);
 
     nock(meetupAPI)
       .get('/find/upcoming_events')
@@ -67,25 +56,7 @@ describe('server', () => {
   });
 
   it('should query groups according to schema', async () => {
-    const GET_GROUPS = gql`
-      query($input: GroupsInput!) {
-        groups(input: $input) {
-          name
-          url
-          city
-          category
-          nextEvent {
-            id
-            name
-            date
-            time
-            venue
-            link
-            group
-          }
-        }
-      }
-    `;
+    const GET_GROUPS = gql(GROUPS);
 
     nock(meetupAPI)
       .get('/find/groups')
