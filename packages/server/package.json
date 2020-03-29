@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node index.ts",
     "dev": "nodemon",
-    "test": "jest --coverage"
+    "test": "jest --watch",
+    "cover": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
