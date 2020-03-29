@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { get } from 'lodash';
 
-import EventsDataSource, { EventResponse } from './data-source';
+import EventsDataSource, { EventResponse } from './events-data-source';
 import GroupsDataSource, { GroupResponse } from './groups-data-source';
 
 export default {

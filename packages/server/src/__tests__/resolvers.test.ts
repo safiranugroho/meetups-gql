@@ -1,5 +1,5 @@
 import resolvers from '../resolvers';
-import EventsDataSource from '../data-source';
+import EventsDataSource from '../events-data-source';
 import GroupsDataSource from '../groups-data-source';
 
 describe('resolvers', () => {

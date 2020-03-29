@@ -5,7 +5,7 @@ import { createTestClient } from 'apollo-server-testing';
 import typeDefs from '../type-defs';
 import resolvers from '../resolvers';
 
-import EventsDataSource from '../data-source';
+import EventsDataSource from '../events-data-source';
 import GroupsDataSource from '../groups-data-source';
 
 // TODO: Match date string to regex instead of mocking moment

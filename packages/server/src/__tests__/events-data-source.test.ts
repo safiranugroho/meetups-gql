@@ -1,7 +1,7 @@
 import nock from 'nock';
 import { InMemoryLRUCache } from 'apollo-server-caching';
 
-import EventsDataSource from '../data-source';
+import EventsDataSource from '../events-data-source';
 
 // TODO: Match date string to regex instead of mocking moment
 jest.mock('moment', () => ({
@@ -13,7 +13,7 @@ jest.mock('moment', () => ({
   }),
 }));
 
-describe('data-source', () => {
+describe('events-data-source', () => {
   const meetupAPI = 'https://api.meetup.com';
 
   const initializeDataSource = () => {
