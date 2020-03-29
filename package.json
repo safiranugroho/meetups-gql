@@ -21,18 +21,18 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
-    "lodash": "^4.17.15",
     "nock": "^11.7.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "ts-jest": "^24.1.0"
   },
   "dependencies": {
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.7",
     "graphql": "^14.5.8",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4",
+    "lodash": "^4.17.15"
   }
 }
