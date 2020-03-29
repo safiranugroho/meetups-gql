@@ -6,10 +6,41 @@ Object {
     "events": Array [
       Object {
         "date": "2019-11-28",
+        "day": "Thursday",
+        "epoch": "1585809000000",
+        "group": "fake-group",
+        "id": "fake-id",
         "link": "http://fake.link",
         "name": "fake-event",
         "time": "18:00",
         "venue": "fake-venue",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`server should query groups according to schema 1`] = `
+Object {
+  "data": Object {
+    "groups": Array [
+      Object {
+        "category": "Tech",
+        "city": "Melbourne",
+        "name": "Melbourne Silicon Beach",
+        "nextEvent": Object {
+          "epoch": "1585809000000",
+          "id": "269253587",
+          "name": "Silicon Beach Pitch Night - April 2020 (Online Event!)",
+        },
+        "url": "Melbourne-Silicon-Beach",
       },
     ],
   },

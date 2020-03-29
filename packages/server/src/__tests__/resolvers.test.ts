@@ -116,6 +116,14 @@ describe('resolvers', () => {
       });
     });
 
+    describe('epoch', () => {
+      it('should resolve to time', () => {
+        expect(resolvers.Event.epoch(fakeEvent)).toEqual(
+          fakeEvent.time.toString(),
+        );
+      });
+    });
+
     describe('venue', () => {
       it('should resolve to name of venue', () => {
         expect(resolvers.Event.venue(fakeEvent)).toEqual(fakeEvent.venue.name);
