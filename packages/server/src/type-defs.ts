@@ -2,7 +2,8 @@ import { gql } from 'apollo-server';
 
 export default gql`
   type Query {
-    events(input: EventsInput!): [Event]
+    events(input: EventsInput): [Event]
+    groups(input: GroupsInput): [Group]
   }
 
   input EventsInput {
@@ -11,6 +12,7 @@ export default gql`
   }
 
   type Event {
+    id: String
     name: String
     day: String
     date: String
@@ -18,5 +20,18 @@ export default gql`
     venue: String
     link: String
     group: String
+  }
+
+  input GroupsInput {
+    category: Int
+    country: String
+  }
+
+  type Group {
+    name: String
+    url: String
+    city: String
+    category: String
+    nextEvent: Event
   }
 `;

@@ -2,10 +2,12 @@ import moment from 'moment';
 import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest';
 
 export type EventResponse = {
+  id: string;
   name: string;
-  local_date: string;
-  local_time: string;
-  link: string;
+  time: string;
+  local_date?: string;
+  local_time?: string;
+  link?: string;
   venue?: Venue;
   group?: Group;
 };

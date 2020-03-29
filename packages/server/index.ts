@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server';
 import typeDefs from './src/type-defs';
 import resolvers from './src/resolvers';
 import EventsDataSource from './src/data-source';
+import GroupsDataSource from './src/groups-data-source';
 
 const server = new ApolloServer({
   typeDefs,
@@ -10,6 +11,7 @@ const server = new ApolloServer({
   context: ({ req }) => ({ token: req.headers.authorization || '' }),
   dataSources: (): {} => ({
     events: new EventsDataSource(),
+    groups: new GroupsDataSource(),
   }),
 });
 
