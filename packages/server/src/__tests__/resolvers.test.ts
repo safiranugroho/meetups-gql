@@ -9,6 +9,7 @@ describe('resolvers', () => {
 
   const groups = ({
     getGroups: jest.fn(),
+    getGroupEvent: jest.fn(),
   } as unknown) as jest.Mocked<GroupsDataSource>;
 
   const fakeEvent = {
@@ -165,12 +166,18 @@ describe('resolvers', () => {
     });
 
     describe('nextEvent', () => {
-      it('should resolve to the next_event', () => {
-        expect(resolvers.Group.nextEvent(fakeGroup)).toEqual({
-          id: fakeEvent.id,
-          name: fakeEvent.name,
-          time: fakeEvent.time,
-        });
+      it('should resolve to the next_event', async () => {
+        groups.getGroupEvent.mockImplementation(() =>
+          Promise.resolve(fakeEvent),
+        );
+
+        const event = await resolvers.Group.nextEvent(
+          fakeGroup,
+          {},
+          { dataSources: { groups } },
+        );
+
+        expect(event).toEqual(fakeEvent);
       });
     });
   });

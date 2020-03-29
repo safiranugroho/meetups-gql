@@ -47,14 +47,23 @@ export default {
       moment(get(event, 'local_date')).format('dddd'),
     date: (event: EventResponse): string => get(event, 'local_date'),
     time: (event: EventResponse): string => get(event, 'local_time'),
-    timeInMilliseconds: (event: EventResponse): string => get(event, 'time').toString(),
+    timeInMilliseconds: (event: EventResponse): string =>
+      get(event, 'time').toString(),
     venue: (event: EventResponse): string => get(event, 'venue.name'),
     group: (event: EventResponse): string => get(event, 'group.name'),
   },
   Group: {
     url: (group: GroupResponse): string => get(group, 'urlname'),
     category: (group: GroupResponse): string => get(group, 'category.name'),
-    nextEvent: (group: GroupResponse): EventResponse =>
-      get(group, 'next_event'),
+    nextEvent: async (
+      group: GroupResponse,
+      _: {},
+      {
+        dataSources: { groups },
+      }: { dataSources: { groups: GroupsDataSource } },
+    ): Promise<EventResponse> => {
+      const nextEvent = get(group, 'next_event');
+      return await groups.getGroupEvent(group.urlname, nextEvent.id);
+    },
   },
 };

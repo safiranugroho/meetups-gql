@@ -25,6 +25,39 @@ jest.mock('moment', () => ({
 describe('server', () => {
   const meetupAPI = 'https://api.meetup.com';
 
+  const fakeGroup = {
+    id: 1785640,
+    name: 'Melbourne Silicon Beach',
+    urlname: 'Melbourne-Silicon-Beach',
+    city: 'Melbourne',
+    next_event: {
+      id: '269253587',
+      name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
+      time: 1585809000000,
+    },
+    category: {
+      id: 34,
+      name: 'Tech',
+      shortname: 'tech',
+      sort_name: 'Tech',
+    },
+  };
+
+  const fakeEvent = {
+    id: '269253587',
+    name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
+    time: 1585809000000,
+    local_date: '2020-04-02',
+    local_time: '17:30',
+    venue: {
+      name: 'Online event',
+    },
+    group: {
+      name: 'Melbourne Silicon Beach',
+    },
+    link: 'https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/',
+  };
+
   it('should query events according to schema', async () => {
     const GET_EVENTS = gql`
       query($input: EventsInput!) {
@@ -42,33 +75,13 @@ describe('server', () => {
       }
     `;
 
-    const fakeEventsResponse = {
-      events: [
-        {
-          id: 'fake-id',
-          name: 'fake-event',
-          local_date: '2019-11-28',
-          local_time: '18:00',
-          time: 1585809000000,
-          link: 'http://fake.link',
-          venue: {
-            name: 'fake-venue',
-            city: 'Melbourne',
-          },
-          group: {
-            name: 'fake-group',
-          },
-        },
-      ],
-    };
-
     nock(meetupAPI)
       .get('/find/upcoming_events')
       .query({
         topic_category: 292,
         end_date_range: '2019-11-10T07:00:00',
       })
-      .reply(200, fakeEventsResponse);
+      .reply(200, { events: [fakeEvent] });
 
     const server = new ApolloServer({
       typeDefs,
@@ -98,31 +111,17 @@ describe('server', () => {
           nextEvent {
             id
             name
+            day
+            date
+            time
             timeInMilliseconds
+            venue
+            link
+            group
           }
         }
       }
     `;
-
-    const fakeGroupsResponse = [
-      {
-        id: 1785640,
-        name: 'Melbourne Silicon Beach',
-        urlname: 'Melbourne-Silicon-Beach',
-        city: 'Melbourne',
-        next_event: {
-          id: '269253587',
-          name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-          time: 1585809000000,
-        },
-        category: {
-          id: 34,
-          name: 'Tech',
-          shortname: 'tech',
-          sort_name: 'Tech',
-        },
-      },
-    ];
 
     nock(meetupAPI)
       .get('/find/groups')
@@ -130,7 +129,11 @@ describe('server', () => {
         category: 34,
         country: 'AU',
       })
-      .reply(200, fakeGroupsResponse);
+      .reply(200, [fakeGroup]);
+
+    nock(meetupAPI)
+      .get(`/${fakeGroup.urlname}/events/${fakeGroup.next_event.id}`)
+      .reply(200, fakeEvent);
 
     const server = new ApolloServer({
       typeDefs,
