@@ -2,14 +2,21 @@ import nock from 'nock';
 import { InMemoryLRUCache } from 'apollo-server-caching';
 
 import GroupsDataSource from '../groups-data-source';
+import fakeGroup from './__fixtures__/group.json';
+import fakeEvent from './__fixtures__/event.json';
+
+// Sunday, April 5, 2020 5:30:50 PM GMT+10:00
+const max7Days = 1586071850000;
+
+// Friday, April 10, 2020 5:00:00 PM GMT+10:00
+const over7Days = 1586502000000;
 
 // TODO: Match date string to regex instead of mocking moment
 jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
-      // Sunday, April 5, 2020 5:30:50 PM GMT+10:00
-      valueOf: () => 1586071850000,
+      valueOf: () => max7Days,
     }),
   }),
 }));
@@ -27,40 +34,6 @@ describe('data-source', () => {
     });
 
     return dataSource;
-  };
-
-  const fakeGroup = {
-    id: 1785640,
-    name: 'Melbourne Silicon Beach',
-    urlname: 'Melbourne-Silicon-Beach',
-    city: 'Melbourne',
-    next_event: {
-      id: '269253587',
-      name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-      // Thursday, April 2, 2020 4:30:00 PM GMT+10:00
-      time: 1585809000000,
-    },
-    category: {
-      id: 34,
-      name: 'Tech',
-      shortname: 'tech',
-      sort_name: 'Tech',
-    },
-  };
-
-  const fakeEventResponse = {
-    id: '269253587',
-    name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-    time: 1585809000000,
-    local_date: '2020-04-02',
-    local_time: '17:30',
-    venue: {
-      name: 'Online event',
-    },
-    group: {
-      name: 'Melbourne Silicon Beach',
-    },
-    link: 'https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/',
   };
 
   const fakeGroupsResponse = [fakeGroup];
@@ -136,8 +109,7 @@ describe('data-source', () => {
         ...fakeGroup,
         next_event: {
           ...fakeGroup.next_event,
-          // Friday, April 10, 2020 5:00:00 PM GMT+10:00
-          time: 1586502000000,
+          time: over7Days,
         },
       };
 
@@ -160,7 +132,7 @@ describe('data-source', () => {
     it('should send a get request with the group and event id passed as arguments', async () => {
       nock(meetupAPI)
         .get(`/${fakeGroup.urlname}/events/${fakeGroup.next_event.id}`)
-        .reply(200, fakeEventResponse);
+        .reply(200, fakeEvent);
 
       const dataSource = initializeDataSource();
       const response = await dataSource.getGroupEvent(
@@ -168,7 +140,7 @@ describe('data-source', () => {
         fakeGroup.next_event.id,
       );
 
-      expect(response).toEqual(fakeEventResponse);
+      expect(response).toEqual(fakeEvent);
     });
   });
 });

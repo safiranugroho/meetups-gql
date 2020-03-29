@@ -8,14 +8,16 @@ import resolvers from '../resolvers';
 import EventsDataSource from '../events-data-source';
 import GroupsDataSource from '../groups-data-source';
 
+import fakeGroup from './__fixtures__/group.json';
+import fakeEvent from './__fixtures__/event.json';
+
 // TODO: Match date string to regex instead of mocking moment
 jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
-      // Saturday, November 10, 2019 7:00:00 AM GMT+10:00 (for events query)
-      format: () => '2019-11-10T07:00:00',
-      // Sunday, April 5, 2020 5:30:50 PM GMT+10:00 (for groups query)
+      // Sunday, April 5, 2020 5:30:50 PM GMT+10:00
+      format: () => '2020-04-05T07:30:50',
       valueOf: () => 1586071850000,
     }),
     format: () => 'Thursday',
@@ -24,39 +26,6 @@ jest.mock('moment', () => ({
 
 describe('server', () => {
   const meetupAPI = 'https://api.meetup.com';
-
-  const fakeGroup = {
-    id: 1785640,
-    name: 'Melbourne Silicon Beach',
-    urlname: 'Melbourne-Silicon-Beach',
-    city: 'Melbourne',
-    next_event: {
-      id: '269253587',
-      name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-      time: 1585809000000,
-    },
-    category: {
-      id: 34,
-      name: 'Tech',
-      shortname: 'tech',
-      sort_name: 'Tech',
-    },
-  };
-
-  const fakeEvent = {
-    id: '269253587',
-    name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-    time: 1585809000000,
-    local_date: '2020-04-02',
-    local_time: '17:30',
-    venue: {
-      name: 'Online event',
-    },
-    group: {
-      name: 'Melbourne Silicon Beach',
-    },
-    link: 'https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/',
-  };
 
   it('should query events according to schema', async () => {
     const GET_EVENTS = gql`
@@ -79,7 +48,7 @@ describe('server', () => {
       .get('/find/upcoming_events')
       .query({
         topic_category: 292,
-        end_date_range: '2019-11-10T07:00:00',
+        end_date_range: '2020-04-05T07:30:50',
       })
       .reply(200, { events: [fakeEvent] });
 

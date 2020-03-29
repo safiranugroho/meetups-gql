@@ -1,0 +1,90 @@
+{
+  "score": 1.0,
+  "id": 1785640,
+  "name": "Melbourne Silicon Beach",
+  "status": "active",
+  "link": "https://www.meetup.com/Melbourne-Silicon-Beach/",
+  "urlname": "Melbourne-Silicon-Beach",
+  "description": "<p><b>Melbourne Silicon Beach (MSB)</b> is the Melbourne community of <a href=\"http://siliconbeachgroup.org/\">Silicon Beach Group Ltd</a>., a “for purpose” company with a mission to “Empower Founders” around Australia and propel us to #2 startup nation in the world by 2025. We are an informal group for anyone interested in founding or working in startups, dev/design in web/mobile tech, IoT, freelancing, investing or working with people in that space. We are a diverse bunch covering all ages, backgrounds and first point of call for newcomers to the startup community in Melbourne.</p>\n<p>Have a look at our <a href=\"http://siliconbeachgroup.org/\">brand new website</a> (currently in public beta). Add your startup, app, project to the site. Got something to say? Join the conversation on <a href=\"http://slack.siliconbeach.community/\">SB Oz Slack channel</a>. <br></p>\n<p>Watch past 90second pitches at our flagship monthly event - MSB Pitch Nights on <a href=\"http://bit.ly/siliconbeachTV\">Silicon Beach TV</a>. Listen to our podcasts on <a href=\"http://siliconbeachradio.com/\">Silicon Beach Radio</a></p>\n<p><span>Our regular monthly MSB Pitch Night happens on the </span><b>first Thursday night of every month</b><span> (except January). They usually attract around 100 - 150 Silicon Beachers. They are </span><b>FREE</b><span> networking events purposely kept very unstructured, so that our members can chat and get to know each other over a drink (alcoholic or non-alcoholic).</span> <br></p>\n<p>Main feature is the 90 second pitch segment where anyone is encouraged to pitch their idea, startup, app or whatever. This is an excellent way to get used to pitching and get feedback from a bunch of non judgemental peers. While we call it a Pitch Night, it’s more of an Open Mic Night for anyone in the startup community or provide products and/or services to startups.&nbsp; <br></p>\n<p>We also host Open Coworking Days (OCWDs), Lunch &amp; Learns at OCWDs, educational events and collaborations with our Sponsors &amp; Partners. We are not funded by governments or any grants. Sponsorships are what keeps us going. Here’s our <a href=\"http://bit.ly/SiliconSponsor\">Sponsor Deck</a>.</p>\n<p>MSB is about you, we provide you the platform that will enable you to be that awesome startup founder, tech founder, coder, freelancer or whoever you want to be.</p>\n<p>Join us and help us make Australia the #2 ranked startup nation in the world by 2025. That’s our BHAG (Big Hairy Audacious Goal). We are currently #5 [source: <a href=\"https://www.startupblink.com/\">Startup Blink</a>]</p>\n<p><b>Melbourne Silicon Beach</b> <br><i>Empowering Founders</i> <br></p>",
+  "created": 1297996698000,
+  "city": "Melbourne",
+  "untranslated_city": "Melbourne",
+  "country": "AU",
+  "localized_country_name": "Australia",
+  "localized_location": "Melbourne, Australia",
+  "region2": "",
+  "state": "",
+  "join_mode": "open",
+  "visibility": "public",
+  "lat": -37.81,
+  "lon": 144.96,
+  "members": 13535,
+  "member_pay_fee": false,
+  "organizer": {
+    "id": 66034592,
+    "name": "Athula Bogoda",
+    "bio": "Lead organiser, Melbourne Silicon Beach. Community Lead, Silicon Beach Australia.",
+    "photo": {
+      "id": 286102292,
+      "highres_link": "https://secure.meetupstatic.com/photos/member/5/7/1/4/highres_286102292.jpeg",
+      "photo_link": "https://secure.meetupstatic.com/photos/member/5/7/1/4/member_286102292.jpeg",
+      "thumb_link": "https://secure.meetupstatic.com/photos/member/5/7/1/4/thumb_286102292.jpeg",
+      "type": "member",
+      "base_url": "https://secure.meetupstatic.com"
+    }
+  },
+  "who": "Silicon Beachers",
+  "group_photo": {
+    "id": 489938913,
+    "highres_link": "https://secure.meetupstatic.com/photos/event/9/8/0/1/highres_489938913.jpeg",
+    "photo_link": "https://secure.meetupstatic.com/photos/event/9/8/0/1/600_489938913.jpeg",
+    "thumb_link": "https://secure.meetupstatic.com/photos/event/9/8/0/1/thumb_489938913.jpeg",
+    "type": "event",
+    "base_url": "https://secure.meetupstatic.com"
+  },
+  "key_photo": {
+    "id": 486460941,
+    "highres_link": "https://secure.meetupstatic.com/photos/event/9/f/e/d/highres_486460941.jpeg",
+    "photo_link": "https://secure.meetupstatic.com/photos/event/9/f/e/d/600_486460941.jpeg",
+    "thumb_link": "https://secure.meetupstatic.com/photos/event/9/f/e/d/thumb_486460941.jpeg",
+    "type": "event",
+    "base_url": "https://secure.meetupstatic.com"
+  },
+  "timezone": "Australia/Melbourne",
+  "next_event": {
+    "id": "269253587",
+    "name": "Silicon Beach Pitch Night - April 2020 (Online Event!)",
+    "yes_rsvp_count": 67,
+    "time": 1585809000000,
+    "utc_offset": 39600000
+  },
+  "category": {
+    "id": 34,
+    "name": "Tech",
+    "shortname": "tech",
+    "sort_name": "Tech"
+  },
+  "meta_category": {
+    "id": 292,
+    "shortname": "tech",
+    "name": "Tech",
+    "sort_name": "Tech",
+    "photo": {
+      "id": 450131949,
+      "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg",
+      "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg",
+      "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg",
+      "type": "event",
+      "base_url": "https://secure.meetupstatic.com"
+    },
+    "category_ids": [
+      34
+    ]
+  },
+  "pro_network": {
+    "name": "Silicon Beach Australia",
+    "urlname": "siliconbeachaustralia",
+    "number_of_groups": 3,
+    "network_url": "https://www.meetup.com/pro/siliconbeachaustralia/"
+  }
+}
