@@ -33,13 +33,18 @@ describe('events-data-source', () => {
     const fakeEventsResponse = {
       events: [
         {
+          id: 'fake-id',
           name: 'fake-event',
           local_date: '2019-11-28',
           local_time: '18:00',
+          time: 1585809000000,
           link: 'http://fake.link',
           venue: {
             name: 'fake-venue',
             city: 'Melbourne',
+          },
+          group: {
+            name: 'fake-group',
           },
         },
       ],
