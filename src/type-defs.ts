@@ -27,6 +27,7 @@ export default gql`
   }
 
   type Group {
+    id: String
     name: String
     url: String
     city: String

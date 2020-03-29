@@ -12,6 +12,7 @@ export const EVENTS = `query($input: EventsInput!) {
 
 export const GROUPS = `query($input: GroupsInput!) {
   groups(input: $input) {
+    id
     name
     url
     city
