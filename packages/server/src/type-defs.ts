@@ -7,8 +7,8 @@ export default gql`
   }
 
   input EventsInput {
-    category: String
-    daysInAdvance: Float
+    category: Int
+    daysInAdvance: Int
   }
 
   type Event {
