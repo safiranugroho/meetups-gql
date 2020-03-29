@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest';
 import { EventResponse } from './events-data-source';
 
@@ -29,7 +30,15 @@ class GroupsDataSource extends RESTDataSource {
     return this.get<GroupResponse[]>(`/find/groups`, {
       category,
       country,
-    }).then(response => response);
+    }).then(response => {
+      const maxDateInMilliseconds = moment()
+        .add(7, 'days')
+        .valueOf();
+
+      return response
+        .filter(group => group.next_event)
+        .filter(group => group.next_event.time <= maxDateInMilliseconds);
+    });
   }
 }
 

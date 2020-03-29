@@ -8,7 +8,8 @@ jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
-      format: () => '2019-11-10T07:00:00',
+      // Sunday, April 5, 2020 5:30:50 PM GMT+10:00
+      valueOf: () => 1586071850000,
     }),
   }),
 }));
@@ -29,25 +30,26 @@ describe('data-source', () => {
   };
 
   describe('getGroups', () => {
-    const fakeGroupsResponse = [
-      {
-        id: 1785640,
-        name: 'Melbourne Silicon Beach',
-        urlname: 'Melbourne-Silicon-Beach',
-        city: 'Melbourne',
-        next_event: {
-          id: '269253587',
-          name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-          time: 1585809000000,
-        },
-        category: {
-          id: 34,
-          name: 'Tech',
-          shortname: 'tech',
-          sort_name: 'Tech',
-        },
+    const fakeGroup = {
+      id: 1785640,
+      name: 'Melbourne Silicon Beach',
+      urlname: 'Melbourne-Silicon-Beach',
+      city: 'Melbourne',
+      next_event: {
+        id: '269253587',
+        name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
+        // Thursday, April 2, 2020 4:30:00 PM GMT+10:00
+        time: 1585809000000,
       },
-    ];
+      category: {
+        id: 34,
+        name: 'Tech',
+        shortname: 'tech',
+        sort_name: 'Tech',
+      },
+    };
+
+    const fakeGroupsResponse = [fakeGroup];
 
     it('should send a get request and query undefined fields with default values', async () => {
       nock(meetupAPI)
@@ -90,6 +92,50 @@ describe('data-source', () => {
 
       const dataSource = initializeDataSource();
       const response = await dataSource.getGroups(undefined, 'NZ');
+
+      expect(response).toEqual(fakeGroupsResponse);
+    });
+
+    it('should return the only the groups with an upcoming event', async () => {
+      const fakeGroupWithNoEvent = {
+        ...fakeGroup,
+        next_event: null,
+      };
+
+      nock(meetupAPI)
+        .get('/find/groups')
+        .query({
+          category: 34,
+          country: 'AU',
+        })
+        .reply(200, [fakeGroup, fakeGroupWithNoEvent]);
+
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getGroups();
+
+      expect(response).toEqual(fakeGroupsResponse);
+    });
+
+    it('should return the only the groups with an upcoming event in the next 7 days by default', async () => {
+      const fakeGroupWithNoEvent = {
+        ...fakeGroup,
+        next_event: {
+          ...fakeGroup.next_event,
+          // Friday, April 10, 2020 5:00:00 PM GMT+10:00
+          time: 1586502000000,
+        },
+      };
+
+      nock(meetupAPI)
+        .get('/find/groups')
+        .query({
+          category: 34,
+          country: 'AU',
+        })
+        .reply(200, [fakeGroup, fakeGroupWithNoEvent]);
+
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getGroups();
 
       expect(response).toEqual(fakeGroupsResponse);
     });

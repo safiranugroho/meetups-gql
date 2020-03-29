@@ -13,7 +13,10 @@ jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
+      // Saturday, November 10, 2019 7:00:00 AM GMT+10:00 (for events query)
       format: () => '2019-11-10T07:00:00',
+      // Sunday, April 5, 2020 5:30:50 PM GMT+10:00 (for groups query)
+      valueOf: () => 1586071850000,
     }),
     format: () => 'Thursday',
   }),
@@ -31,7 +34,7 @@ describe('server', () => {
           day
           date
           time
-          epoch
+          timeInMilliseconds
           venue
           link
           group
@@ -95,7 +98,7 @@ describe('server', () => {
           nextEvent {
             id
             name
-            epoch
+            timeInMilliseconds
           }
         }
       }

@@ -4,11 +4,21 @@ import { get } from 'lodash';
 import EventsDataSource, { EventResponse } from './events-data-source';
 import GroupsDataSource, { GroupResponse } from './groups-data-source';
 
+type EventsInput = {
+  category?: number;
+  daysInAdvance?: number;
+};
+
+type GroupsInput = {
+  category?: number;
+  country?: string;
+};
+
 export default {
   Query: {
     events: async (
       _: {},
-      { input }: { input: { category: number; daysInAdvance: number } },
+      { input }: { input: EventsInput },
       {
         dataSources: { events },
       }: { dataSources: { events: EventsDataSource } },
@@ -21,7 +31,7 @@ export default {
 
     groups: async (
       _: {},
-      { input }: { input: { category: number; country: string } },
+      { input }: { input?: GroupsInput },
       {
         dataSources: { groups },
       }: { dataSources: { groups: GroupsDataSource } },
@@ -37,7 +47,7 @@ export default {
       moment(get(event, 'local_date')).format('dddd'),
     date: (event: EventResponse): string => get(event, 'local_date'),
     time: (event: EventResponse): string => get(event, 'local_time'),
-    epoch: (event: EventResponse): string => get(event, 'time').toString(),
+    timeInMilliseconds: (event: EventResponse): string => get(event, 'time').toString(),
     venue: (event: EventResponse): string => get(event, 'venue.name'),
     group: (event: EventResponse): string => get(event, 'group.name'),
   },

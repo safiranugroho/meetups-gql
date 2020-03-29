@@ -8,6 +8,7 @@ jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
+      // Saturday, November 10, 2019 7:00:00 AM GMT+10:00
       format: () => '2019-11-10T07:00:00',
     }),
   }),
