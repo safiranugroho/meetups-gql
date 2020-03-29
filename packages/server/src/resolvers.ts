@@ -36,8 +36,8 @@ export default {
     day: (event: EventResponse): string =>
       moment(get(event, 'local_date')).format('dddd'),
     date: (event: EventResponse): string => get(event, 'local_date'),
-    time: (event: EventResponse): string =>
-      get(event, 'local_time') || get(event, 'time').toString(),
+    time: (event: EventResponse): string => get(event, 'local_time'),
+    epoch: (event: EventResponse): string => get(event, 'time').toString(),
     venue: (event: EventResponse): string => get(event, 'venue.name'),
     group: (event: EventResponse): string => get(event, 'group.name'),
   },
