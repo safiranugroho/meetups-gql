@@ -2,14 +2,17 @@ import nock from 'nock';
 import { InMemoryLRUCache } from 'apollo-server-caching';
 
 import EventsDataSource from '../events-data-source';
+import fakeEvent from './__fixtures__/event.json';
+
+// Sunday, April 5, 2020 5:30:50 PM GMT+10:00
+const fakeEndDateRange = '2020-04-05T07:30:50';
 
 // TODO: Match date string to regex instead of mocking moment
 jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
     add: () => ({
-      // Saturday, November 10, 2019 7:00:00 AM GMT+10:00
-      format: () => '2019-11-10T07:00:00',
+      format: () => fakeEndDateRange,
     }),
   }),
 }));
@@ -31,23 +34,7 @@ describe('events-data-source', () => {
 
   describe('getEvents', () => {
     const fakeEventsResponse = {
-      events: [
-        {
-          id: 'fake-id',
-          name: 'fake-event',
-          local_date: '2019-11-28',
-          local_time: '18:00',
-          time: 1585809000000,
-          link: 'http://fake.link',
-          venue: {
-            name: 'fake-venue',
-            city: 'Melbourne',
-          },
-          group: {
-            name: 'fake-group',
-          },
-        },
-      ],
+      events: [fakeEvent],
     };
 
     it('should send a get request and query undefined fields with default values', async () => {
@@ -55,7 +42,7 @@ describe('events-data-source', () => {
         .get('/find/upcoming_events')
         .query({
           topic_category: 292,
-          end_date_range: '2019-11-10T07:00:00',
+          end_date_range: fakeEndDateRange,
         })
         .reply(200, fakeEventsResponse);
 
@@ -70,7 +57,7 @@ describe('events-data-source', () => {
         .get('/find/upcoming_events')
         .query({
           topic_category: 111,
-          end_date_range: '2019-11-10T07:00:00',
+          end_date_range: fakeEndDateRange,
         })
         .reply(200, fakeEventsResponse);
 
@@ -85,7 +72,7 @@ describe('events-data-source', () => {
         .get('/find/upcoming_events')
         .query({
           topic_category: 292,
-          end_date_range: '2019-11-10T07:00:00',
+          end_date_range: fakeEndDateRange,
         })
         .reply(200, fakeEventsResponse);
 
