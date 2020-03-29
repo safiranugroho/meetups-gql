@@ -56,15 +56,39 @@ describe('resolvers', () => {
 
         expect(results).toEqual([fakeEvent]);
       });
+
+      it('should return the same results from EventsDataSource with no input', async () => {
+        events.getEvents.mockImplementation(() => Promise.resolve([fakeEvent]));
+
+        const results = await resolvers.Query.events(
+          {},
+          { input: undefined },
+          { dataSources: { events } },
+        );
+
+        expect(results).toEqual([fakeEvent]);
+      });
     });
 
     describe('groups', () => {
-      it('should return results from EventsDataSource', async () => {
+      it('should return results from GroupsDataSource', async () => {
         groups.getGroups.mockImplementation(() => Promise.resolve([fakeGroup]));
 
         const results = await resolvers.Query.groups(
           {},
           { input: { category: 34, country: 'AU' } },
+          { dataSources: { groups } },
+        );
+
+        expect(results).toEqual([fakeGroup]);
+      });
+
+      it('should return the same results from GroupsDataSource with no input', async () => {
+        groups.getGroups.mockImplementation(() => Promise.resolve([fakeGroup]));
+
+        const results = await resolvers.Query.groups(
+          {},
+          { input: undefined },
           { dataSources: { groups } },
         );
 
