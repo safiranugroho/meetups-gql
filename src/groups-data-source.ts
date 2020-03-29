@@ -26,19 +26,21 @@ class GroupsDataSource extends RESTDataSource {
     request.headers.set('Authorization', this.context.token);
   }
 
-  async getGroups(category = 34, country = 'AU'): Promise<GroupResponse[]> {
-    return this.get<GroupResponse[]>('/find/groups', {
-      category,
-      country,
-    }).then(response => {
-      const maxDateInMilliseconds = moment()
-        .add(7, 'days')
-        .valueOf();
+  async getGroups(
+    category = 34,
+    daysUntilNextEvent = 7,
+  ): Promise<GroupResponse[]> {
+    return this.get<GroupResponse[]>('/find/groups', { category }).then(
+      response => {
+        const maxDateInMilliseconds = moment()
+          .add(daysUntilNextEvent, 'days')
+          .valueOf();
 
-      return response
-        .filter(group => group.next_event)
-        .filter(group => group.next_event.time <= maxDateInMilliseconds);
-    });
+        return response
+          .filter(group => group.next_event)
+          .filter(group => group.next_event.time <= maxDateInMilliseconds);
+      },
+    );
   }
 
   async getGroupEvent(

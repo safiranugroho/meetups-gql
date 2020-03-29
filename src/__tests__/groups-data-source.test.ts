@@ -5,6 +5,9 @@ import GroupsDataSource from '../groups-data-source';
 import fakeGroup from './__fixtures__/group.json';
 import fakeEvent from './__fixtures__/event.json';
 
+// Wednesday, April 1, 2020 5:30:00 PM GMT+10:00
+const max2Days = 1585762200000;
+
 // Sunday, April 5, 2020 5:30:50 PM GMT+10:00
 const max7Days = 1586071850000;
 
@@ -15,8 +18,8 @@ const over7Days = 1586502000000;
 jest.mock('moment', () => ({
   __esModule: true,
   default: () => ({
-    add: () => ({
-      valueOf: () => max7Days,
+    add: days => ({
+      valueOf: () => (days === 7 ? max7Days : max2Days),
     }),
   }),
 }));
@@ -42,10 +45,7 @@ describe('data-source', () => {
     it('should send a get request and query undefined fields with default values', async () => {
       nock(meetupAPI)
         .get('/find/groups')
-        .query({
-          category: 34,
-          country: 'AU',
-        })
+        .query({ category: 34 })
         .reply(200, fakeGroupsResponse);
 
       const dataSource = initializeDataSource();
@@ -59,27 +59,11 @@ describe('data-source', () => {
         .get('/find/groups')
         .query({
           category: 111,
-          country: 'AU',
         })
         .reply(200, fakeGroupsResponse);
 
       const dataSource = initializeDataSource();
       const response = await dataSource.getGroups(111);
-
-      expect(response).toEqual(fakeGroupsResponse);
-    });
-
-    it('should send a get request and query country passed as argument', async () => {
-      nock(meetupAPI)
-        .get('/find/groups')
-        .query({
-          category: 34,
-          country: 'NZ',
-        })
-        .reply(200, fakeGroupsResponse);
-
-      const dataSource = initializeDataSource();
-      const response = await dataSource.getGroups(undefined, 'NZ');
 
       expect(response).toEqual(fakeGroupsResponse);
     });
@@ -92,10 +76,7 @@ describe('data-source', () => {
 
       nock(meetupAPI)
         .get('/find/groups')
-        .query({
-          category: 34,
-          country: 'AU',
-        })
+        .query({ category: 34 })
         .reply(200, [fakeGroup, fakeGroupWithNoEvent]);
 
       const dataSource = initializeDataSource();
@@ -105,7 +86,7 @@ describe('data-source', () => {
     });
 
     it('should return the only the groups with an upcoming event in the next 7 days by default', async () => {
-      const fakeGroupWithNoEvent = {
+      const fakeGroupWithLaterEvent = {
         ...fakeGroup,
         next_event: {
           ...fakeGroup.next_event,
@@ -115,16 +96,33 @@ describe('data-source', () => {
 
       nock(meetupAPI)
         .get('/find/groups')
-        .query({
-          category: 34,
-          country: 'AU',
-        })
-        .reply(200, [fakeGroup, fakeGroupWithNoEvent]);
+        .query({ category: 34 })
+        .reply(200, [fakeGroup, fakeGroupWithLaterEvent]);
 
       const dataSource = initializeDataSource();
       const response = await dataSource.getGroups();
 
       expect(response).toEqual(fakeGroupsResponse);
+    });
+
+    it('should return the right groups given the days until next event', async () => {
+      const fakeGroupWithLaterEvent = {
+        ...fakeGroup,
+        next_event: {
+          ...fakeGroup.next_event,
+          time: over7Days,
+        },
+      };
+
+      nock(meetupAPI)
+        .get('/find/groups')
+        .query({ category: 34 })
+        .reply(200, [fakeGroup, fakeGroupWithLaterEvent]);
+
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getGroups(undefined, 2);
+
+      expect(response).toEqual([]);
     });
   });
 

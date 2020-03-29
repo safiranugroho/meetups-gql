@@ -77,7 +77,7 @@ describe('resolvers', () => {
 
         const results = await resolvers.Query.groups(
           {},
-          { input: { category: 34, country: 'AU' } },
+          { input: { category: 34 } },
           { dataSources: { groups } },
         );
 

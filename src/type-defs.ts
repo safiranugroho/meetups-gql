@@ -23,7 +23,7 @@ export default gql`
 
   input GroupsInput {
     category: Int
-    country: String
+    daysUntilNextEvent: Int
   }
 
   type Group {

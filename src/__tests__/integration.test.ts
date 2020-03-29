@@ -60,10 +60,7 @@ describe('server', () => {
 
     nock(meetupAPI)
       .get('/find/groups')
-      .query({
-        category: 34,
-        country: 'AU',
-      })
+      .query({ category: 34 })
       .reply(200, [fakeGroup]);
 
     nock(meetupAPI)
@@ -81,7 +78,7 @@ describe('server', () => {
     const { query } = createTestClient(server);
     const response = await query({
       query: GET_GROUPS,
-      variables: { input: { category: 34, country: 'AU' } },
+      variables: { input: { category: 34, daysUntilNextEvent: 7 } },
     });
 
     expect(response).toMatchSnapshot();

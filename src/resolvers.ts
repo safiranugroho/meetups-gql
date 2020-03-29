@@ -10,7 +10,7 @@ type EventsInput = {
 
 type GroupsInput = {
   category?: number;
-  country?: string;
+  daysUntilNextEvent?: number;
 };
 
 export default {
@@ -32,9 +32,9 @@ export default {
       { dataSources }: { dataSources: { groups: GroupsDataSource } },
     ) => {
       const category = get(input, 'category');
-      const country = get(input, 'country');
+      const daysUntilNextEvent = get(input, 'daysUntilNextEvent');
 
-      return await dataSources.groups.getGroups(category, country);
+      return await dataSources.groups.getGroups(category, daysUntilNextEvent);
     },
   },
 
