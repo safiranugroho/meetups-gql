@@ -27,7 +27,7 @@ class GroupsDataSource extends RESTDataSource {
   }
 
   async getGroups(category = 34, country = 'AU'): Promise<GroupResponse[]> {
-    return this.get<GroupResponse[]>(`/find/groups`, {
+    return this.get<GroupResponse[]>('/find/groups', {
       category,
       country,
     }).then(response => {
@@ -39,6 +39,13 @@ class GroupsDataSource extends RESTDataSource {
         .filter(group => group.next_event)
         .filter(group => group.next_event.time <= maxDateInMilliseconds);
     });
+  }
+
+  async getGroupEvent(
+    groupId: string,
+    eventId: string,
+  ): Promise<EventResponse> {
+    return this.get<EventResponse>(`/${groupId}/events/${eventId}`);
   }
 }
 

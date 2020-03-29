@@ -36,7 +36,7 @@ class EventsDataSource extends RESTDataSource {
   }
 
   async getEvents(category = 292, daysInAdvance = 7): Promise<EventResponse[]> {
-    return this.get<EventsResponse>(`/find/upcoming_events`, {
+    return this.get<EventsResponse>('/find/upcoming_events', {
       topic_category: category,
       end_date_range: moment()
         .add(daysInAdvance, 'days')

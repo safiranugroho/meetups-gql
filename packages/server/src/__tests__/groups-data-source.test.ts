@@ -29,28 +29,43 @@ describe('data-source', () => {
     return dataSource;
   };
 
-  describe('getGroups', () => {
-    const fakeGroup = {
-      id: 1785640,
+  const fakeGroup = {
+    id: 1785640,
+    name: 'Melbourne Silicon Beach',
+    urlname: 'Melbourne-Silicon-Beach',
+    city: 'Melbourne',
+    next_event: {
+      id: '269253587',
+      name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
+      // Thursday, April 2, 2020 4:30:00 PM GMT+10:00
+      time: 1585809000000,
+    },
+    category: {
+      id: 34,
+      name: 'Tech',
+      shortname: 'tech',
+      sort_name: 'Tech',
+    },
+  };
+
+  const fakeEventResponse = {
+    id: '269253587',
+    name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
+    time: 1585809000000,
+    local_date: '2020-04-02',
+    local_time: '17:30',
+    venue: {
+      name: 'Online event',
+    },
+    group: {
       name: 'Melbourne Silicon Beach',
-      urlname: 'Melbourne-Silicon-Beach',
-      city: 'Melbourne',
-      next_event: {
-        id: '269253587',
-        name: 'Silicon Beach Pitch Night - April 2020 (Online Event!)',
-        // Thursday, April 2, 2020 4:30:00 PM GMT+10:00
-        time: 1585809000000,
-      },
-      category: {
-        id: 34,
-        name: 'Tech',
-        shortname: 'tech',
-        sort_name: 'Tech',
-      },
-    };
+    },
+    link: 'https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/',
+  };
 
-    const fakeGroupsResponse = [fakeGroup];
+  const fakeGroupsResponse = [fakeGroup];
 
+  describe('getGroups', () => {
     it('should send a get request and query undefined fields with default values', async () => {
       nock(meetupAPI)
         .get('/find/groups')
@@ -138,6 +153,22 @@ describe('data-source', () => {
       const response = await dataSource.getGroups();
 
       expect(response).toEqual(fakeGroupsResponse);
+    });
+  });
+
+  describe('getGroupEvent', () => {
+    it('should send a get request with the group and event id passed as arguments', async () => {
+      nock(meetupAPI)
+        .get(`/${fakeGroup.urlname}/events/${fakeGroup.next_event.id}`)
+        .reply(200, fakeEventResponse);
+
+      const dataSource = initializeDataSource();
+      const response = await dataSource.getGroupEvent(
+        fakeGroup.urlname,
+        fakeGroup.next_event.id,
+      );
+
+      expect(response).toEqual(fakeEventResponse);
     });
   });
 });
