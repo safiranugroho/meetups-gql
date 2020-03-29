@@ -66,7 +66,7 @@ describe('server', () => {
     const { query } = createTestClient(server);
     const response = await query({
       query: GET_EVENTS,
-      variables: { input: { category: '292', daysInAdvance: 7 } },
+      variables: { input: { category: 292, daysInAdvance: 7 } },
     });
 
     expect(response).toMatchSnapshot();

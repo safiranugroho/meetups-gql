@@ -8,7 +8,7 @@ export default {
       _: {},
       {
         input: { category, daysInAdvance },
-      }: { input: { category: string; daysInAdvance: number } },
+      }: { input: { category: number; daysInAdvance: number } },
       {
         dataSources: { events },
       }: { dataSources: { events: EventsDataSource } },

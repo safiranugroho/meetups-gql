@@ -4,7 +4,7 @@ import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest';
 export type EventResponse = {
   id: string;
   name: string;
-  time: string;
+  time: number;
   local_date?: string;
   local_time?: string;
   link?: string;
@@ -35,10 +35,7 @@ class EventsDataSource extends RESTDataSource {
     request.headers.set('Authorization', this.context.token);
   }
 
-  async getEvents(
-    category = '292',
-    daysInAdvance = 7,
-  ): Promise<EventResponse[]> {
+  async getEvents(category = 292, daysInAdvance = 7): Promise<EventResponse[]> {
     return this.get<EventsResponse>(`/find/upcoming_events`, {
       topic_category: category,
       end_date_range: moment()

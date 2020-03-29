@@ -63,13 +63,13 @@ describe('data-source', () => {
       nock(meetupAPI)
         .get('/find/upcoming_events')
         .query({
-          topic_category: 200,
+          topic_category: 111,
           end_date_range: '2019-11-10T07:00:00',
         })
         .reply(200, fakeEventsResponse);
 
       const dataSource = initializeDataSource();
-      const response = await dataSource.getEvents('200');
+      const response = await dataSource.getEvents(111);
 
       expect(response).toEqual(fakeEventsResponse.events);
     });
