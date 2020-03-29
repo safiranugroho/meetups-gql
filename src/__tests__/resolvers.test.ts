@@ -63,7 +63,7 @@ describe('resolvers', () => {
 
         const results = await resolvers.Query.events(
           {},
-          { input: undefined },
+          {},
           { dataSources: { events } },
         );
 
@@ -99,12 +99,6 @@ describe('resolvers', () => {
   });
 
   describe('Event', () => {
-    describe('day', () => {
-      it('should resolve to the day of local_date', () => {
-        expect(resolvers.Event.day(fakeEvent)).toEqual('Thursday');
-      });
-    });
-
     describe('date', () => {
       it('should resolve to local_date', () => {
         expect(resolvers.Event.date(fakeEvent)).toEqual(fakeEvent.local_date);
@@ -114,14 +108,6 @@ describe('resolvers', () => {
     describe('time', () => {
       it('should resolve to local_time', () => {
         expect(resolvers.Event.time(fakeEvent)).toEqual(fakeEvent.local_time);
-      });
-    });
-
-    describe('timeInMilliseconds', () => {
-      it('should resolve to time', () => {
-        expect(resolvers.Event.timeInMilliseconds(fakeEvent)).toEqual(
-          fakeEvent.time.toString(),
-        );
       });
     });
 

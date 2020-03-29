@@ -1,6 +1,5 @@
 import { gql } from 'apollo-server';
 
-// TODO: Find a better way to store the timeInMilliseconds time than as a string
 export default gql`
   type Query {
     events(input: EventsInput): [Event]
@@ -15,10 +14,8 @@ export default gql`
   type Event {
     id: String
     name: String
-    day: String
     date: String
     time: String
-    timeInMilliseconds: String
     venue: String
     link: String
     group: String

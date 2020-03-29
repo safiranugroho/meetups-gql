@@ -6,13 +6,11 @@ Object {
     "events": Array [
       Object {
         "date": "2020-04-02",
-        "day": "Thursday",
         "group": "Melbourne Silicon Beach",
         "id": "269253587",
         "link": "https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/",
         "name": "Silicon Beach Pitch Night - April 2020 (Online Event!)",
         "time": "17:30",
-        "timeInMilliseconds": "1585809000000",
         "venue": "Online event",
       },
     ],
@@ -37,13 +35,11 @@ Object {
         "name": "Melbourne Silicon Beach",
         "nextEvent": Object {
           "date": "2020-04-02",
-          "day": "Thursday",
           "group": "Melbourne Silicon Beach",
           "id": "269253587",
           "link": "https://www.meetup.com/Melbourne-Silicon-Beach/events/269253587/",
           "name": "Silicon Beach Pitch Night - April 2020 (Online Event!)",
           "time": "17:30",
-          "timeInMilliseconds": "1585809000000",
           "venue": "Online event",
         },
         "url": "Melbourne-Silicon-Beach",

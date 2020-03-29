@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { get } from 'lodash';
 
 import EventsDataSource, { EventResponse } from './events-data-source';
@@ -18,52 +17,45 @@ export default {
   Query: {
     events: async (
       _: {},
-      { input }: { input: EventsInput },
-      {
-        dataSources: { events },
-      }: { dataSources: { events: EventsDataSource } },
+      { input }: { input?: EventsInput },
+      { dataSources }: { dataSources: { events: EventsDataSource } },
     ) => {
       const category = get(input, 'category');
       const daysInAdvance = get(input, 'daysInAdvance');
 
-      return await events.getEvents(category, daysInAdvance);
+      return await dataSources.events.getEvents(category, daysInAdvance);
     },
 
     groups: async (
       _: {},
       { input }: { input?: GroupsInput },
-      {
-        dataSources: { groups },
-      }: { dataSources: { groups: GroupsDataSource } },
+      { dataSources }: { dataSources: { groups: GroupsDataSource } },
     ) => {
       const category = get(input, 'category');
       const country = get(input, 'country');
 
-      return await groups.getGroups(category, country);
+      return await dataSources.groups.getGroups(category, country);
     },
   },
+
   Event: {
-    day: (event: EventResponse): string =>
-      moment(get(event, 'local_date')).format('dddd'),
     date: (event: EventResponse): string => get(event, 'local_date'),
     time: (event: EventResponse): string => get(event, 'local_time'),
-    timeInMilliseconds: (event: EventResponse): string =>
-      get(event, 'time').toString(),
     venue: (event: EventResponse): string => get(event, 'venue.name'),
     group: (event: EventResponse): string => get(event, 'group.name'),
   },
+
   Group: {
     url: (group: GroupResponse): string => get(group, 'urlname'),
     category: (group: GroupResponse): string => get(group, 'category.name'),
     nextEvent: async (
       group: GroupResponse,
       _: {},
-      {
-        dataSources: { groups },
-      }: { dataSources: { groups: GroupsDataSource } },
-    ): Promise<EventResponse> => {
-      const nextEvent = get(group, 'next_event');
-      return await groups.getGroupEvent(group.urlname, nextEvent.id);
-    },
+      { dataSources }: { dataSources: { groups: GroupsDataSource } },
+    ): Promise<EventResponse> =>
+      await dataSources.groups.getGroupEvent(
+        group.urlname,
+        group.next_event.id,
+      ),
   },
 };

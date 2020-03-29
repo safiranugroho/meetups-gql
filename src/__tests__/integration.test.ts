@@ -20,7 +20,6 @@ jest.mock('moment', () => ({
       format: () => '2020-04-05T07:30:50',
       valueOf: () => 1586071850000,
     }),
-    format: () => 'Thursday',
   }),
 }));
 
@@ -33,10 +32,8 @@ describe('server', () => {
         events(input: $input) {
           id
           name
-          day
           date
           time
-          timeInMilliseconds
           venue
           link
           group
@@ -80,10 +77,8 @@ describe('server', () => {
           nextEvent {
             id
             name
-            day
             date
             time
-            timeInMilliseconds
             venue
             link
             group
