@@ -88,7 +88,7 @@ describe('resolvers', () => {
 
         const results = await resolvers.Query.groups(
           {},
-          { input: undefined },
+          {},
           { dataSources: { groups } },
         );
 
@@ -116,9 +116,9 @@ describe('resolvers', () => {
       });
     });
 
-    describe('epoch', () => {
+    describe('timeInMilliseconds', () => {
       it('should resolve to time', () => {
-        expect(resolvers.Event.epoch(fakeEvent)).toEqual(
+        expect(resolvers.Event.timeInMilliseconds(fakeEvent)).toEqual(
           fakeEvent.time.toString(),
         );
       });
