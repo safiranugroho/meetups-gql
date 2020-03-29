@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server';
 
 import typeDefs from './src/type-defs';
 import resolvers from './src/resolvers';
-import EventsDataSource from './src/data-source';
+import EventsDataSource from './src/events-data-source';
 import GroupsDataSource from './src/groups-data-source';
 
 const server = new ApolloServer({

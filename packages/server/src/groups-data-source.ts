@@ -1,5 +1,5 @@
 import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest';
-import { EventResponse } from './data-source';
+import { EventResponse } from './events-data-source';
 
 export type GroupResponse = {
   id: number;
